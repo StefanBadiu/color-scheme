@@ -1,0 +1,25 @@
+{
+  "name": "color-scheme",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start",
+    "start-api": "uvicorn backend.venv.main:app --reload"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StefanBadiu/color-scheme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StefanBadiu/color-scheme/issues"
+  },
+  "homepage": "https://github.com/StefanBadiu/color-scheme#readme",
+  "description": "",
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
+}
