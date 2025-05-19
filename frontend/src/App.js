@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 function App() {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
+  const [error, setError] = useState('No image selected.');
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -36,11 +37,11 @@ function App() {
       <p>
         API sample message: {message || "Loading..."} 
       </p>
-      <button className="upload-button" type="button" onClick={handleButtonClick}>
-        Upload image
-      </button>
-      {/*Input below is tied to button above*/}
-      <div>
+      <div className="flex flex-row items-center gap-4">
+        <button className="upload-button" type="button" onClick={handleButtonClick}>
+          Upload image
+        </button>
+        {/*Input below is tied to button above*/}
         <input
           type="file"
           id="input"
@@ -51,9 +52,10 @@ function App() {
         {image &&
           <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
         }
-        {!image &&
-          <p>No image uploaded yet!</p>
-        }
+        {/*!image &&
+          <p>{error}</p>
+        */}
+        <p>{error}</p>
       </div>
     </div>
   </>);

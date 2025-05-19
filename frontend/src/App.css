@@ -55,8 +55,8 @@
 }
 
 .img-preview {
-  max-width: calc(400px + 2vmin);
-  max-height: calc(400px + 2vmin);
+  max-width: calc(200px + 2vmin);
+  max-height: calc(200px + 2vmin);
 }
 
 @keyframes App-logo-spin {
