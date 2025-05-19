@@ -20,7 +20,16 @@ function App() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file));
+      const extension = file.name.split('.').pop(); // Use file.name instead of image.name
+      const acceptedTypes = ['png', 'jpg', 'jpeg', 'webp'];
+
+      if (!acceptedTypes.includes(extension)) {
+        setImage(null);  
+        setError("Error: invalid file type. File must be a .png, .jpg, .jpeg, or .webp file.");
+      } else {
+        setImage(URL.createObjectURL(file));
+        setError("no error");
+      }
     }
   };
 
@@ -47,6 +56,7 @@ function App() {
           id="input"
           ref={fileInputRef}
           style={{ display: 'none' }}
+          //accept=".png,.jpg,.jpeg,.webp"
           onChange={handleFileChange}
         />
         {image &&
