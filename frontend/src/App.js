@@ -1,15 +1,27 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
-    
+  const fileInputRef = useRef(null);
+
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/test')
       .then(response => response.json())
       .then(data => setMessage(data.message));
   }, []);
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(URL.createObjectURL(file));
+    }
+  };
 
   return (<>
     <div className="">
@@ -24,14 +36,25 @@ function App() {
       <p>
         API sample message: {message || "Loading..."} 
       </p>
-      <button class="upload-button" type="button">Upload image</button>
-      <input type="file" id="input"></input>
-      {image &&
-        <img src={image} alt="Uploaded" className="uploaded-image" />
-      }
-      {!image &&
-        <p>No image uploaded yet!</p>
-      }
+      <button className="upload-button" type="button" onClick={handleButtonClick}>
+        Upload image
+      </button>
+      {/*Input below is tied to button above*/}
+      <div>
+        <input
+          type="file"
+          id="input"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
+        {image &&
+          <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
+        }
+        {!image &&
+          <p>No image uploaded yet!</p>
+        }
+      </div>
     </div>
   </>);
 }
