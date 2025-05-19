@@ -31,6 +31,15 @@
   font-family: 'Trebuchet MS', sans-serif;
 }
 
+.text {
+  font-size: 4px;
+}
+
+.subtext {
+  font-size: 0.8rem;
+  color: #555555;
+}
+
 .upload-button {
   background-color: #61dafb;
   font-size: calc(2px + 2vmin);
@@ -55,8 +64,8 @@
 }
 
 .img-preview {
+  height: calc(100px + 2vmin);
   max-width: calc(200px + 2vmin);
-  max-height: calc(200px + 2vmin);
 }
 
 @keyframes App-logo-spin {

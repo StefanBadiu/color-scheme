@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 function App() {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
+  const [imageFileName, setImageFileName] = useState('No image selected.');
   const [error, setError] = useState('No image selected.');
   const fileInputRef = useRef(null);
 
@@ -22,12 +23,19 @@ function App() {
     if (file) {
       const extension = file.name.split('.').pop(); // Use file.name instead of image.name
       const acceptedTypes = ['png', 'jpg', 'jpeg', 'webp'];
+      const acceptedTypesLong = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
 
       if (!acceptedTypes.includes(extension)) {
-        setImage(null);  
+        setImage(null); 
+        setImageFileName('No image selected.'); 
         setError("Error: invalid file type. File must be a .png, .jpg, .jpeg, or .webp file.");
+      } else if (!acceptedTypesLong.includes(file.type)) {
+        setImage(null);  
+        setImageFileName('No image selected.');
+        setError("Error: invalid file type. Even though your file is labellef as a .png, .jpg, .jpeg, or .webp file, the true file type is invalid.");
       } else {
         setImage(URL.createObjectURL(file));
+        setImageFileName(file.name);
         setError("no error");
       }
     }
@@ -47,25 +55,25 @@ function App() {
         API sample message: {message || "Loading..."} 
       </p>
       <div className="flex flex-row items-center gap-4">
-        <button className="upload-button" type="button" onClick={handleButtonClick}>
-          Upload image
-        </button>
-        {/*Input below is tied to button above*/}
         <input
           type="file"
           id="input"
           ref={fileInputRef}
           style={{ display: 'none' }}
-          //accept=".png,.jpg,.jpeg,.webp"
           onChange={handleFileChange}
         />
         {image &&
-          <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
+          <div className="flex flex-col">
+            <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
+            <p className="subtext">{imageFileName}</p>
+          </div>
         }
-        {/*!image &&
+        {!image &&
           <p>{error}</p>
-        */}
-        <p>{error}</p>
+        }
+        <button className="upload-button" type="button" onClick={handleButtonClick}>
+          Upload image
+        </button>
       </div>
     </div>
   </>);
