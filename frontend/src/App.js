@@ -125,11 +125,11 @@ function App() {
         Get my color scheme!
       </button>
       <div>
-        {colors && Object.keys(colors.message).length > 0 ? (
+        {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div>
             <p>Extracted Colors:</p>
             <ul>
-              {Object.entries(colors.message).map(([rgb, count], index) => (
+              {colors.message.map(([rgb, count], index) => (
                 <li key={index}>
                   <span
                     style={{
