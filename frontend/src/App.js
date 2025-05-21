@@ -1,12 +1,29 @@
 import './App.css';
 import React, { useState, useEffect, useRef } from 'react';
 
+function hexToRGB(h) {
+  let r = 0, g = 0, b = 0;
+
+  if (h.length === 4) {
+    r = "0x" + h[1] + h[1];
+    g = "0x" + h[2] + h[2];
+    b = "0x" + h[3] + h[3];
+  } else if (h.length === 7) {
+    r = "0x" + h[1] + h[2];
+    g = "0x" + h[3] + h[4];
+    b = "0x" + h[5] + h[6];
+  }
+  
+  return "rgb("+ +r + "," + +g + "," + +b + ")";
+}
+
 function App() {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
   const [imageFileName, setImageFileName] = useState('No image selected.');
   const [error, setError] = useState('No image selected.');
   const [colors, setColors] = useState(null);
+  const [mainColor, setMainColor] = useState(hexToRGB("#61dafb"));
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -22,6 +39,7 @@ function App() {
       }
     };
   }, [image]);
+  
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -77,7 +95,8 @@ function App() {
 
       const data = await response.json();
       setColors(data);
-      console.log("Color Scheme:", data); // Log the response
+      console.log("Color Scheme:", data); 
+      setMainColor(`rgb${data.message[0][0]}`);
     } catch (err) {
       setError(err.message);
     }
@@ -96,6 +115,15 @@ function App() {
       <p>
         API sample message: {message || "Loading..."} 
       </p>
+      <span
+        style={{
+          display: "inline-block",
+          width: "20px",
+          height: "20px",
+          backgroundColor: `${mainColor}`,
+          marginRight: "10px",
+        }}
+      ></span>
       <div className="flex flex-row items-center gap-4">
         <input
           type="file"
