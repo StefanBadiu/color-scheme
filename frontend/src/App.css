@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-color: #61dafb;
+}
+
 .header {
-  background-color: #61dafb;
+  background-color: var(--main-color);
   min-height: 10vh;
   display: flex;
   flex-direction: column;
@@ -41,7 +45,7 @@
 }
 
 .button {
-  background-color: #61dafb;
+  background-color: var(--main-color);
   font-size: calc(2px + 2vmin);
 
   border-radius: 10px;

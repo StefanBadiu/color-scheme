@@ -18,7 +18,7 @@ function hexToRGB(h) {
 }
 
 function App() {
-  const [message, setMessage] = useState('');
+  //const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
   const [imageFileName, setImageFileName] = useState('No image selected.');
   const [error, setError] = useState('No image selected.');
@@ -26,11 +26,11 @@ function App() {
   const [mainColor, setMainColor] = useState(hexToRGB("#61dafb"));
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     fetch('http://127.0.0.1:8000/api/test')
       .then(response => response.json())
       .then(data => setMessage(data.message));
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     return () => {
@@ -40,6 +40,11 @@ function App() {
     };
   }, [image]);
   
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--main-color', "" + mainColor + "");
+    console.log("Main color is now: " + mainColor);
+  }, [mainColor]);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -96,7 +101,8 @@ function App() {
       const data = await response.json();
       setColors(data);
       console.log("Color Scheme:", data); 
-      setMainColor(`rgb${data.message[0][0]}`);
+      let mainColor = data.message[0][0];
+      setMainColor(`rgb${mainColor}`);
     } catch (err) {
       setError(err.message);
     }
@@ -112,18 +118,9 @@ function App() {
     </div>
     
     <div className="main mt-[15px] flex flex-col gap-4">
-      <p>
+      {/*<p>
         API sample message: {message || "Loading..."} 
-      </p>
-      <span
-        style={{
-          display: "inline-block",
-          width: "20px",
-          height: "20px",
-          backgroundColor: `${mainColor}`,
-          marginRight: "10px",
-        }}
-      ></span>
+      </p>*/}
       <div className="flex flex-row items-center gap-4">
         <input
           type="file"
