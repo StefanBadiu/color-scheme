@@ -14,6 +14,14 @@ function App() {
       .then(data => setMessage(data.message));
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (image) {
+        URL.revokeObjectURL(image);
+      }
+    };
+  }, [image]);
+
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
@@ -21,18 +29,18 @@ function App() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const extension = file.name.split('.').pop(); // Use file.name instead of image.name
-      const acceptedTypes = ['png', 'jpg', 'jpeg', 'webp'];
-      const acceptedTypesLong = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
+      console.log("File details:", {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      });
 
-      if (!acceptedTypes.includes(extension)) {
-        setImage(null); 
-        setImageFileName('No image selected.'); 
-        setError("Error: invalid file type. File must be a .png, .jpg, .jpeg, or .webp file.");
-      } else if (!acceptedTypesLong.includes(file.type)) {
-        setImage(null);  
+      const acceptedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp']; // Validate using MIME types
+
+      if (!acceptedTypes.includes(file.type)) {
+        setImage(null);
         setImageFileName('No image selected.');
-        setError("Error: invalid file type. Even though your file is labellef as a .png, .jpg, .jpeg, or .webp file, the true file type is invalid.");
+        setError("Error: invalid file type. File must be a .png, .jpg, .jpeg, or .webp file.");
       } else {
         setImage(URL.createObjectURL(file));
         setImageFileName(file.name);
