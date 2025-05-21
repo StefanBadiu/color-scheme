@@ -27,24 +27,33 @@ async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...))
         img = Image.open(file.file)
         logging.info("Image opened successfully.")
 
+        if img.mode not in ("RGB", "L"):
+            img = img.convert("RGB")
+            logging.info("Image converted to RGB mode.")
+
+        img = img.quantize(colors=128)
+        palette = img.getpalette()
+        logging.info("Palette retrieved successfully.")
+
         image_array = np.array(img)
         logging.info("Image converted to array: %s", image_array.shape)
-        logging.info("Dimensions in image: %s", image_array.shape[2])
 
         colors = {}
 
-        for x in range(image_array.shape[0]):
-            for y in range(image_array.shape[1]):
-                # logging.info("image_array[x][y]: %s", image_array[x][y])
-                if str(image_array[x][y]) not in colors:
-                    colors[str(image_array[x][y])] = 1
-                    # logging.info("one")
-                else:
-                    colors[str(image_array[x][y])] += 1
-                    # logging.info("two")
+        if len(image_array.shape) == 2: 
+            for x in range(image_array.shape[0]):
+                for y in range(image_array.shape[1]):
+                    pixel = image_array[x][y]
+                    rgb = str(tuple(palette[pixel * 3:pixel * 3 + 3]))  # Extract RGB values
+                    if rgb not in colors:        
+                        colors[rgb] = 1
+                    else:
+                        colors[rgb] += 1
+        else:
+            raise ValueError("Unexpected image array shape: %s" % str(image_array.shape))
 
-        logging.info("colors: %s", colors)
+        logging.info("Colors extracted: %s", colors)
     except Exception as e:
-        logging.info(f"Error: {e}")
+        logging.error(f"Error: {e}")
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
     return {"message": colors}
