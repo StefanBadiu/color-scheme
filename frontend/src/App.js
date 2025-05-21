@@ -6,6 +6,7 @@ function App() {
   const [image, setImage] = useState(null);
   const [imageFileName, setImageFileName] = useState('No image selected.');
   const [error, setError] = useState('No image selected.');
+  const [colors, setColors] = useState(null);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ function App() {
 
   const colorScheme = async () => {
     console.log("COLOR SCHEME !!");
-    const colorCount = document.getElementById("colors").value; // Get the number of colors
+    const colorCount = document.getElementById("colors").value;
     if (!image || !colorCount) {
       setError("Please upload an image and enter a valid number.");
       return;
@@ -59,8 +60,8 @@ function App() {
 
     try {
       const formData = new FormData();
-      formData.append("file", fileInputRef.current.files[0]); // Append the file
-      formData.append("colorCount", colorCount); // Append the number of colors
+      formData.append("file", fileInputRef.current.files[0]);
+      formData.append("colorCount", colorCount);
 
       const response = await fetch("http://127.0.0.1:8000/api/colorscheme", {
         method: "POST",
@@ -75,6 +76,7 @@ function App() {
       }
 
       const data = await response.json();
+      setColors(data);
       console.log("Color Scheme:", data); // Log the response
     } catch (err) {
       setError(err.message);
@@ -116,12 +118,37 @@ function App() {
         </button>
       </div>
       <div>
-        <label for="colors">Number of colors: (1-10) </label>
+        <label for="colors">Number of colors (1-10): </label>
         <input className="border" type="number" id="colors" name="colors" min="1" max="10" />
       </div>
       <button className="button" type="button" onClick={colorScheme}>
         Get my color scheme!
       </button>
+      <div>
+        {colors && Object.keys(colors.message).length > 0 ? (
+          <div>
+            <p>Extracted Colors:</p>
+            <ul>
+              {Object.entries(colors.message).map(([rgb, count], index) => (
+                <li key={index}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: "20px",
+                      height: "20px",
+                      backgroundColor: `rgb${rgb}`,
+                      marginRight: "10px",
+                    }}
+                  ></span>
+                  {rgb}: {count} occurrences
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p>No colors extracted yet.</p>
+        )}
+      </div>
     </div>
   </>);
 }

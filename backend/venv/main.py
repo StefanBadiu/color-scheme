@@ -52,6 +52,7 @@ async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...))
         else:
             raise ValueError("Unexpected image array shape: %s" % str(image_array.shape))
 
+        # sorted_colors = dict(sorted(my_dict.items(), key=lambda item: item[1]))
         logging.info("Colors extracted: %s", colors)
     except Exception as e:
         logging.error(f"Error: {e}")
