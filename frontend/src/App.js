@@ -49,6 +49,38 @@ function App() {
     }
   };
 
+  const colorScheme = async () => {
+    console.log("COLOR SCHEME !!");
+    const colorCount = document.getElementById("colors").value; // Get the number of colors
+    if (!image || !colorCount) {
+      setError("Please upload an image and enter a valid number.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", fileInputRef.current.files[0]); // Append the file
+      formData.append("colorCount", colorCount); // Append the number of colors
+
+      const response = await fetch("http://127.0.0.1:8000/api/colorscheme", {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log(response);
+
+      if (!response.ok) {
+        console.log("LOL");
+        throw new Error("Failed to fetch color scheme.");
+      }
+
+      const data = await response.json();
+      console.log("Color Scheme:", data); // Log the response
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   return (<>
     <div className="">
       <header className="header">
@@ -87,7 +119,7 @@ function App() {
         <label for="colors">Number of colors: (1-10) </label>
         <input className="border" type="number" id="colors" name="colors" min="1" max="10" />
       </div>
-      <button className="button" type="button" onClick={handleButtonClick}>
+      <button className="button" type="button" onClick={colorScheme}>
         Get my color scheme!
       </button>
     </div>
