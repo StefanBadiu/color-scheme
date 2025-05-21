@@ -79,10 +79,17 @@ function App() {
         {!image &&
           <p>{error}</p>
         }
-        <button className="upload-button" type="button" onClick={handleButtonClick}>
+        <button className="button" type="button" onClick={handleButtonClick}>
           Upload image
         </button>
       </div>
+      <div>
+        <label for="colors">Number of colors: (1-10) </label>
+        <input className="border" type="number" id="colors" name="colors" min="1" max="10" />
+      </div>
+      <button className="button" type="button" onClick={handleButtonClick}>
+        Get my color scheme!
+      </button>
     </div>
   </>);
 }
