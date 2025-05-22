@@ -147,6 +147,10 @@ function App() {
       console.log("Color Scheme:", data);
 
       let mainColor = data.message[0][0];
+      if (mainColor === "(255, 255, 255)") {
+        mainColor = data.message[1][0];
+      }
+      console.log(mainColor);
       setMainColor(`rgb${mainColor}`);
     } catch (err) {
       setError(err.message);

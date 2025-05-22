@@ -30,6 +30,14 @@ async def quantize(file: UploadFile = File(...)):
         img = Image.open(file.file)
         logging.info("Image opened successfully.")
 
+        # fix for transparent (RGBA) images
+        img.load()
+        background = Image.new("RGB", img.size, (255, 255, 255))
+        background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
+
+        background.save('foo.jpg', 'JPEG', quality=80)
+        img = background
+
         if img.mode not in ("RGB", "L"):
             img = img.convert("RGB")
             logging.info("Image converted to RGB mode.")
@@ -59,9 +67,13 @@ async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...))
         img = Image.open(file.file)
         logging.info("Image opened successfully.")
 
-        if img.mode not in ("RGB"):
-            img = img.convert("RGB")
-            logging.info("Image converted to RGB mode.")
+        # fix for transparent (RGBA) images
+        img.load()
+        background = Image.new("RGB", img.size, (255, 255, 255))
+        background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
+
+        background.save('foo.jpg', 'JPEG', quality=80)
+        img = background
 
         img = img.quantize(colors=q)
         palette = img.getpalette()
@@ -93,7 +105,7 @@ async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...))
             raise ValueError("Unexpected image array shape: %s" % str(image_array.shape))
 
         # Sort colors by frequency
-        logging.info("Colors UNsorted: %s", colors)
+        #logging.info("Colors UNsorted: %s", colors)
         sorted_colors = Counter(colors).most_common(colorCount)
         #logging.info("Colors sorted: %s", sorted_colors)
     except Exception as e:
