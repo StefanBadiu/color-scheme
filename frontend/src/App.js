@@ -214,7 +214,7 @@ function App() {
       </div>
       <div>
         {colors && colors.message.length > 0 ? ( // Check if colors exist
-          <div>
+          <div className="flex flex-col items-center">
             <p>Extracted Colors:</p>
             <ul>
               {colors.message.map(([rgb, count], index) => (
@@ -225,6 +225,7 @@ function App() {
                       width: "20px",
                       height: "20px",
                       backgroundColor: `rgb${rgb}`,
+                      marginTop: "5px",
                       marginRight: "10px",
                       border: "1px solid #000",
                     }}
