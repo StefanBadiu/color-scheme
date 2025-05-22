@@ -44,6 +44,8 @@
 .subtext {
   font-size: 0.8rem;
   color: #555555;
+  text-wrap: wrap;
+  text-align: center;
 }
 
 .button {
@@ -77,7 +79,7 @@
   border-width: 2px;
   border-color: #000;
   border-radius: 10px;
-  padding: 0px 2px;
+  padding: 0px 4px;
 }
 
 .input-container {

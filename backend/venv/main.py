@@ -22,8 +22,8 @@ async def hello():
     return {"message": "Testing!"}
 
 @app.post("/api/quantize")
-async def quantize(file: UploadFile = File(...)):
-    q = 128
+async def quantize(file: UploadFile = File(...), q: int = Form(...)):
+    #q = 128
     try:
         logging.info("Received file: %s", file.filename)
         
@@ -55,8 +55,8 @@ async def quantize(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 
 @app.post("/api/colorscheme")
-async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...)):
-    q = 128
+async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...), q: int = Form(...)):
+    # q = 128
 
     try:
         logging.info("Received file: %s", file.filename)

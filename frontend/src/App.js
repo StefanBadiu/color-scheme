@@ -41,6 +41,11 @@ function App() {
       .then(data => setMessage(data.message));
   }, []);*/
 
+  useEffect(() => { 
+    document.getElementById("colors").defaultValue = "10";
+    document.getElementById("q").defaultValue = "128";
+  }, []);
+
   useEffect(() => {
     return () => {
       if (image) {
@@ -93,9 +98,11 @@ function App() {
 
   const quantize = async () => {
     console.log("QUANTIZE !!");
+    const quantizationLevel = document.getElementById("q").value;
     try {
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
+      formData.append("q", quantizationLevel);
 
       const response = await fetch("http://127.0.0.1:8000/api/quantize", {
         method: "POST",
@@ -120,8 +127,9 @@ function App() {
   const colorScheme = async () => {
     console.log("COLOR SCHEME !!");
     const colorCount = document.getElementById("colors").value;
-    if (!image || !colorCount) {
-      setError("Please upload an image and enter a valid number.");
+    const quantizationLevel = document.getElementById("q").value;
+    if (!image || !colorCount || !quantizationLevel) {
+      setError("Please upload an image and enter valid numbers for color count and quantization level.");
       return;
     }
 
@@ -129,6 +137,7 @@ function App() {
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
       formData.append("colorCount", colorCount);
+      formData.append("q", quantizationLevel);
 
       const response = await fetch("http://127.0.0.1:8000/api/colorscheme", {
         method: "POST",
@@ -193,6 +202,12 @@ function App() {
           <label for="colors">Number of colors (1-128): </label>
           <input className="border" type="number" id="colors" name="colors" min="1" max="128" />
         </div>
+        <div>
+          <label for="q">Color quantization (1-256): </label>
+          <input className="border" type="number" id="q" name="q" min="1" max="256" />
+        </div>
+        <p className="subtext">A lower color quantization level should increase the variety of colors shown, but may be slightly less accurate.<br></br>If you don't understand what this means, it may be better to leave this option untouched.(Would not recommend going below 64 in most cases.)</p>
+        <p className="subtext">TIP: If your image is large or has a wide variety of colors, consider cropping a specific, important part of it for better results.</p>
         <button className="button mb-[15px]" type="button" onClick={colorScheme}>
           Get my color scheme!
         </button>
