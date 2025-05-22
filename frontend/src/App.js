@@ -32,6 +32,7 @@ function App() {
   const [error, setError] = useState('No image selected.');
   const [colors, setColors] = useState(null);
   const [mainColor, setMainColor] = useState(hexToRGB("#61dafb"));
+  const [quantizeSample, setQuantizeSample] = useState(null);
   const fileInputRef = useRef(null);
 
   /*useEffect(() => {
@@ -90,6 +91,32 @@ function App() {
     }
   };
 
+  const quantize = async () => {
+    console.log("QUANTIZE !!");
+    try {
+      const formData = new FormData();
+      formData.append("file", fileInputRef.current.files[0]);
+
+      const response = await fetch("http://127.0.0.1:8000/api/quantize", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        console.log("OOPS!");
+        throw new Error("Failed to fetch quantized image.");
+      }
+
+      console.log(response || "NO RESPONSE");
+
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+      setQuantizeSample(imageUrl);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   const colorScheme = async () => {
     console.log("COLOR SCHEME !!");
     const colorCount = document.getElementById("colors").value;
@@ -135,38 +162,37 @@ function App() {
       </header>
     </div>
     
-    <div className="main mt-[15px] flex flex-col gap-4">
-      {/*<p>
-        API sample message: {message || "Loading..."} 
-      </p>*/}
-      <div className="flex flex-row items-center gap-4">
-        <input
-          type="file"
-          id="input"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        {image &&
-          <div className="flex flex-col">
-            <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
-            <p className="subtext">{imageFileName}</p>
-          </div>
-        }
-        {!image &&
-          <p>{error}</p>
-        }
-        <button className="button" type="button" onClick={handleButtonClick}>
-          Upload image
+    <div className="main flex flex-col gap-4">
+      <div className="input-container flex flex-col items-center gap-4">
+        <div className="flex flex-row items-center gap-4 mt-[15px]">
+          <input
+            type="file"
+            id="input"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          {image &&
+            <div className="flex flex-col">
+              <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
+              <p className="subtext">{imageFileName}</p>
+            </div>
+          }
+          {!image &&
+            <p>{error}</p>
+          }
+          <button className="button" type="button" onClick={handleButtonClick}>
+            Upload image
+          </button>
+        </div>
+        <div>
+          <label for="colors">Number of colors (1-128): </label>
+          <input className="border" type="number" id="colors" name="colors" min="1" max="128" />
+        </div>
+        <button className="button mb-[15px]" type="button" onClick={colorScheme}>
+          Get my color scheme!
         </button>
       </div>
-      <div>
-        <label for="colors">Number of colors (1-256): </label>
-        <input className="border" type="number" id="colors" name="colors" min="1" max="256" />
-      </div>
-      <button className="button" type="button" onClick={colorScheme}>
-        Get my color scheme!
-      </button>
       <div>
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div>
@@ -190,6 +216,17 @@ function App() {
           </div>
         ) : (
           <p>No colors extracted yet.</p>
+        )}
+      </div>
+      <div className="flex flex-col items-center gap-4">
+        <button className="button" type="button" onClick={quantize}>
+          Quantize
+        </button>
+        {quantizeSample && (
+          <div>
+            <p>Quantized Image:</p>
+            <img src={quantizeSample} alt="Quantized" className="img-preview" />
+          </div>
         )}
       </div>
     </div>

@@ -80,6 +80,14 @@
   padding: 0px 2px;
 }
 
+.input-container {
+  box-shadow: #000000 0px 0px 10px 0px;
+  clip-path: inset(0px -10px -10px -10px);
+  border-radius: 0px 0px 10px 10px;
+  width: 100%;
+  margin: 0;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
