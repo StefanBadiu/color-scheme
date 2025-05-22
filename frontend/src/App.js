@@ -17,6 +17,14 @@ function hexToRGB(h) {
   return "rgb("+ +r + "," + +g + "," + +b + ")";
 }
 
+function rgbStringToArray(rgb) {
+  const values = rgb.match(/(\d+)/g); // Extract numbers
+  if (!values || values.length !== 3) {
+    return null; // Or handle invalid input as needed
+  }
+  return values.map(Number); // Convert strings to numbers
+}
+
 function App() {
   //const [message, setMessage] = useState('');
   const [image, setImage] = useState(null);
@@ -44,6 +52,15 @@ function App() {
     const root = document.documentElement;
     root.style.setProperty('--main-color', "" + mainColor + "");
     console.log("Main color is now: " + mainColor);
+
+    const text = rgbStringToArray(mainColor);
+    let textColor = null;
+    if (text) {
+      const [r, g, b] = text;
+      const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+      textColor = brightness > 186 ? "black" : "white";
+    }
+    root.style.setProperty('--bg-text-color', "" + textColor + "");
   }, [mainColor]);
 
   const handleButtonClick = () => {
@@ -100,7 +117,8 @@ function App() {
 
       const data = await response.json();
       setColors(data);
-      console.log("Color Scheme:", data); 
+      console.log("Color Scheme:", data);
+
       let mainColor = data.message[0][0];
       setMainColor(`rgb${mainColor}`);
     } catch (err) {
@@ -143,8 +161,8 @@ function App() {
         </button>
       </div>
       <div>
-        <label for="colors">Number of colors (1-10): </label>
-        <input className="border" type="number" id="colors" name="colors" min="1" max="10" />
+        <label for="colors">Number of colors (1-256): </label>
+        <input className="border" type="number" id="colors" name="colors" min="1" max="256" />
       </div>
       <button className="button" type="button" onClick={colorScheme}>
         Get my color scheme!

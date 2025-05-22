@@ -4,10 +4,13 @@
 
 :root {
   --main-color: #61dafb;
+  --bg-text-color: #000000;
 }
 
 .header {
   background-color: var(--main-color);
+  transition: background-color 0.2s ease;
+
   min-height: 10vh;
   display: flex;
   flex-direction: column;
@@ -16,10 +19,9 @@
   
   /* Font */
   font-size: calc(6px + 2vmin);
-  color: white;
+  color: var(--bg-text-color);
   text-align: left;
   font-family: 'Trebuchet MS', sans-serif;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   text-indent: 1em;
 
   /* Border */
@@ -54,11 +56,13 @@
 
   padding: 0px 5px;
 
+  color: var(--bg-text-color);
+
   transition: background-color 0.2s ease;
 }
 
 .button:hover {
-  background-color: #0000ff;
+  background-color: #00ccff;
   color: #fff;
 
   transition: background-color 0.2s ease;
