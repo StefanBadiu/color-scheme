@@ -211,6 +211,7 @@ function App() {
                       height: "20px",
                       backgroundColor: `rgb${rgb}`,
                       marginRight: "10px",
+                      border: "1px solid #000",
                     }}
                   ></span>
                   {rgb}: {count} occurrences

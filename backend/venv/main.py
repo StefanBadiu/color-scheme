@@ -30,16 +30,14 @@ async def quantize(file: UploadFile = File(...)):
         img = Image.open(file.file)
         logging.info("Image opened successfully.")
 
-        # fix for transparent (RGBA) images
-        img.load()
-        background = Image.new("RGB", img.size, (255, 255, 255))
-        background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
+        if img.mode not in ("RGB"):
+            # fix for transparent (RGBA) images
+            img.load()
+            background = Image.new("RGB", img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
 
-        background.save('foo.jpg', 'JPEG', quality=80)
-        img = background
-
-        if img.mode not in ("RGB", "L"):
-            img = img.convert("RGB")
+            background.save('foo.jpg', 'JPEG', quality=80)
+            img = background
             logging.info("Image converted to RGB mode.")
 
         img = img.quantize(colors=q)
@@ -67,13 +65,16 @@ async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...))
         img = Image.open(file.file)
         logging.info("Image opened successfully.")
 
-        # fix for transparent (RGBA) images
-        img.load()
-        background = Image.new("RGB", img.size, (255, 255, 255))
-        background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
 
-        background.save('foo.jpg', 'JPEG', quality=80)
-        img = background
+        if img.mode not in ("RGB"):
+            # fix for transparent (RGBA) images
+            img.load()
+            background = Image.new("RGB", img.size, (255, 255, 255))
+            background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
+
+            background.save('foo.jpg', 'JPEG', quality=80)
+            img = background
+            logging.info("Image converted to RGB mode.")
 
         img = img.quantize(colors=q)
         palette = img.getpalette()
