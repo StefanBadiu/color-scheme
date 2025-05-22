@@ -17,6 +17,11 @@ function hexToRGB(h) {
   return "rgb("+ +r + "," + +g + "," + +b + ")";
 }
 
+function rgbToHex(r) {
+  const s = r.substring(1, r.indexOf(')')).split(", ");
+  return "#" + parseInt(s[0]).toString(16) + parseInt(s[1]).toString(16) + parseInt(s[2]).toString(16);
+}
+
 function rgbStringToArray(rgb) {
   const values = rgb.match(/(\d+)/g); // Extract numbers
   if (!values || values.length !== 3) {
@@ -43,7 +48,7 @@ function App() {
 
   useEffect(() => { 
     document.getElementById("colors").defaultValue = "10";
-    document.getElementById("q").defaultValue = "128";
+    document.getElementById("q").defaultValue = "256";
   }, []);
 
   useEffect(() => {
@@ -206,8 +211,11 @@ function App() {
           <label for="q">Color quantization (1-256): </label>
           <input className="border" type="number" id="q" name="q" min="1" max="256" />
         </div>
-        <p className="subtext">A lower color quantization level should increase the variety of colors shown, but may be slightly less accurate.<br></br>If you don't understand what this means, it may be better to leave this option untouched.(Would not recommend going below 64 in most cases.)</p>
+        <p className="subtext">A lower color quantization level should increase the variety of colors shown, but may be slightly less accurate.<br></br>If you don't understand what this means, it may be better to leave this option untouched. (Would not recommend going below 64 in most cases.)</p>
         <p className="subtext">TIP: If your image is large or has a wide variety of colors, consider cropping a specific, important part of it for better results.</p>
+        <button className="button" type="button" onClick={quantize}>
+          Quantize
+        </button>
         <button className="button mb-[15px]" type="button" onClick={colorScheme}>
           Get my color scheme!
         </button>
@@ -218,19 +226,22 @@ function App() {
             <p>Extracted Colors:</p>
             <ul>
               {colors.message.map(([rgb, count], index) => (
-                <li key={index}>
-                  <span
-                    style={{
-                      display: "inline-block",
-                      width: "20px",
-                      height: "20px",
-                      backgroundColor: `rgb${rgb}`,
-                      marginTop: "5px",
-                      marginRight: "10px",
-                      border: "1px solid #000",
-                    }}
-                  ></span>
-                  {rgb}: {count} occurrences
+                <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
+                  <div className="flex items-center gap-2">
+                    <span
+                      style={{
+                        display: "inline-block",
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: `rgb${rgb}`,
+                        border: "1px solid #000",
+                      }}
+                    ></span>
+                    rgb{rgb} / {rgbToHex(rgb)}
+                  </div>
+                  <p className="subtext">
+                    ({count} occurrences)
+                  </p>
                 </li>
               ))}
             </ul>
@@ -240,9 +251,6 @@ function App() {
         )}
       </div>
       <div className="flex flex-col items-center gap-4">
-        <button className="button" type="button" onClick={quantize}>
-          Quantize
-        </button>
         {quantizeSample && (
           <div>
             <p>Quantized Image:</p>
