@@ -18,6 +18,8 @@ function hexToRGB(h) {
 }
 
 function rgbToHex(r) {
+  console.log(r);
+  r = r.toString();
   const s = r.substring(1, r.indexOf(')')).split(", ");
   return "#" + parseInt(s[0]).toString(16) + parseInt(s[1]).toString(16) + parseInt(s[2]).toString(16);
 }
