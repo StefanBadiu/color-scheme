@@ -50,6 +50,7 @@ function App() {
 
   useEffect(() => { 
     document.getElementById("colors").defaultValue = "10";
+    document.getElementById("distance").defaultValue = "10";
     document.getElementById("q").defaultValue = "256";
   }, []);
 
@@ -105,6 +106,7 @@ function App() {
 
   const quantize = async () => {
     console.log("QUANTIZE !!");
+    const colorCount = document.getElementById("colors").value;
     const quantizationLevel = document.getElementById("q").value;
     try {
       const formData = new FormData();
@@ -135,6 +137,7 @@ function App() {
     console.log("COLOR SCHEME !!");
     const colorCount = document.getElementById("colors").value;
     const quantizationLevel = document.getElementById("q").value;
+    const distance = document.getElementById("distance").value;
     if (!image || !colorCount || !quantizationLevel) {
       setError("Please upload an image and enter valid numbers for color count and quantization level.");
       return;
@@ -145,6 +148,7 @@ function App() {
       formData.append("file", fileInputRef.current.files[0]);
       formData.append("colorCount", colorCount);
       formData.append("q", quantizationLevel);
+      formData.append("distance", distance);
 
       const response = await fetch("http://127.0.0.1:8000/api/colorscheme", {
         method: "POST",
@@ -208,6 +212,10 @@ function App() {
         <div>
           <label for="colors">Number of colors (1-128): </label>
           <input className="border" type="number" id="colors" name="colors" min="1" max="128" />
+        </div>
+        <div>
+          <label for="q">Minimum color difference (0-100): </label>
+          <input className="border" type="number" id="distance" name="distance" min="0" max="100" />
         </div>
         <div>
           <label for="q">Color quantization (1-256): </label>

@@ -28,7 +28,7 @@ def color_dist(c1, c2):
                 (float(c1[2]) - float(c2[2])) ** 2)
 
 def filter_colors(colors, min_distance):
-    logging.info("Colors input: %s", colors)
+    #logging.info("Colors input: %s", colors)
     filtered = []
     for color, count in colors:
         if all(color_dist(color, existing_color) >= min_distance for existing_color, _ in filtered):
@@ -73,9 +73,12 @@ async def quantize(file: UploadFile = File(...), q: int = Form(...)):
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 
 @app.post("/api/colorscheme")
-async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...), q: int = Form(...)):
-    distance = 100
-    
+async def colorscheme(
+    file: UploadFile = File(...),
+    colorCount: int = Form(...),
+    q: int = Form(...),
+    distance: int = Form(...)
+):
     try:
         logging.info("Received file: %s", file.filename)
         logging.info("Requested color count: %d", colorCount)
