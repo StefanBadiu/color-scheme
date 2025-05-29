@@ -6,6 +6,8 @@ import numpy as np
 import logging
 from fastapi.responses import StreamingResponse
 from io import BytesIO
+from math import sqrt
+import ast
     
 app = FastAPI()
 app.add_middleware(
@@ -16,6 +18,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 logging.basicConfig(level=logging.INFO)
+
+def color_dist(c1, c2):
+    c1 = ast.literal_eval(c1)
+    c2 = ast.literal_eval(c2)
+    #logging.info("c1: %s, c2: %s", c1, c2)
+    return sqrt((float(c1[0]) - float(c2[0])) ** 2 +
+                (float(c1[1]) - float(c2[1])) ** 2 +
+                (float(c1[2]) - float(c2[2])) ** 2)
+
+def filter_colors(colors, min_distance):
+    logging.info("Colors input: %s", colors)
+    filtered = []
+    for color, count in colors:
+        if all(color_dist(color, existing_color) >= min_distance for existing_color, _ in filtered):
+            filtered.append((color, count))
+    logging.info("Filtered colors: %s", filtered)
+    return filtered
     
 @app.get("/api/test")
 async def hello():
@@ -23,7 +42,6 @@ async def hello():
 
 @app.post("/api/quantize")
 async def quantize(file: UploadFile = File(...), q: int = Form(...)):
-    #q = 128
     try:
         logging.info("Received file: %s", file.filename)
         
@@ -56,15 +74,14 @@ async def quantize(file: UploadFile = File(...), q: int = Form(...)):
 
 @app.post("/api/colorscheme")
 async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...), q: int = Form(...)):
-    # q = 128
-
+    distance = 100
+    
     try:
         logging.info("Received file: %s", file.filename)
         logging.info("Requested color count: %d", colorCount)
         
         img = Image.open(file.file)
         logging.info("Image opened successfully.")
-
 
         if img.mode not in ("RGB"):
             # fix for transparent (RGBA) images
@@ -107,7 +124,14 @@ async def colorscheme(file: UploadFile = File(...), colorCount: int = Form(...),
 
         # Sort colors by frequency
         #logging.info("Colors UNsorted: %s", colors)
-        sorted_colors = Counter(colors).most_common(colorCount)
+        sorted_colors = []
+        if distance > 0:
+            colors_list = [(key, value) for key, value in colors.items()]
+            colors_list = Counter(dict(colors_list)).most_common()
+            filtered_colors = filter_colors(colors_list, distance)
+            sorted_colors = Counter(dict(filtered_colors)).most_common(colorCount)
+        else:
+            sorted_colors = Counter(colors).most_common(colorCount)
         #logging.info("Colors sorted: %s", sorted_colors)
     except Exception as e:
         logging.error(f"Error: {e}")
