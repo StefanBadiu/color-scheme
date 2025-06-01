@@ -100,14 +100,26 @@ function App() {
       } else {
         setImage(URL.createObjectURL(file));
         setImageFileName(file.name);
-        setError("no error");
+        setError(null);
       }
     }
   };
 
   const quantize = async () => {
     console.log("QUANTIZE !!");
+    const colorCount = document.getElementById("colors").value;
     const quantizationLevel = document.getElementById("q").value;
+    const distance = document.getElementById("distance").value;
+    if (!image) {
+      setError("Please upload an image.");
+      return;
+    } else if (!colorCount || !distance) {
+      setError("Please fill in all fields.");
+      return;
+    } else if (!quantizationLevel) {
+      setError("Please fill in all fields under \"Advanced Settings\".");
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
@@ -138,8 +150,14 @@ function App() {
     const colorCount = document.getElementById("colors").value;
     const quantizationLevel = document.getElementById("q").value;
     const distance = document.getElementById("distance").value;
-    if (!image || !colorCount || !quantizationLevel) {
-      setError("Please upload an image and enter valid numbers for color count and quantization level.");
+    if (!image) {
+      setError("Please upload an image.");
+      return;
+    } else if (!colorCount || !distance) {
+      setError("Please fill in all fields.");
+      return;
+    } else if (!quantizationLevel) {
+      setError("Please fill in all fields under \"Advanced Settings\".");
       return;
     }
 
@@ -233,12 +251,12 @@ function App() {
               <p className="subtext">{imageFileName}</p>
             </div>
           }
-          {!image &&
-            <p>{error}</p>
-          }
           <button className="button" type="button" onClick={handleButtonClick}>
             Upload image
           </button>
+        </div>
+        <div className="subtext mb-2">
+          {error}
         </div>
         <div>
           <label for="colors">Number of colors (1-128): </label>
