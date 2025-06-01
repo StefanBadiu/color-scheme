@@ -40,6 +40,7 @@ function App() {
   const [colors, setColors] = useState(null);
   const [mainColor, setMainColor] = useState(hexToRGB("#61dafb"));
   const [quantizeSample, setQuantizeSample] = useState(null);
+  const [advancedSettingsText, setAdvancedSettingsText] = useState("Advanced Settings ↓");
   const fileInputRef = useRef(null);
 
   /*useEffect(() => {
@@ -179,6 +180,7 @@ function App() {
   const toggleAdvancedSettings = () => {
     const advancedSettings = document.querySelector('.advanced-settings');
     if (advancedSettings.classList.contains('expanded')) { // COLLAPSE SETTINGS:
+      setAdvancedSettingsText("Advanced Settings ↓");
       advancedSettings.style.height = `${advancedSettings.scrollHeight}px`;
       requestAnimationFrame(() => {
         advancedSettings.style.height = '0';
@@ -192,6 +194,7 @@ function App() {
         { once: true }
       );
     } else { // EXPAND SETTINGS:
+      setAdvancedSettingsText("Advanced Settings ↑");
       advancedSettings.style.height = `${advancedSettings.scrollHeight}px`;
       advancedSettings.style.border = '2px solid black'; 
       advancedSettings.classList.add('expanded');
@@ -247,7 +250,7 @@ function App() {
         </div>
         <div className="flex flex-col items-center">
           <button className="button" type="button" onClick={toggleAdvancedSettings}>
-            Advanced Settings
+            {advancedSettingsText}
           </button>
           <div className="advanced-settings flex flex-col items-center gap-4">
             <div>
