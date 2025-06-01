@@ -33,7 +33,7 @@ def filter_colors(colors, min_distance):
     for color, count in colors:
         if all(color_dist(color, existing_color) >= min_distance for existing_color, _ in filtered):
             filtered.append((color, count))
-    logging.info("Filtered colors: %s", filtered)
+    #logging.info("Filtered colors: %s", filtered)
     return filtered
     
 @app.get("/api/test")

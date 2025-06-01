@@ -106,7 +106,6 @@ function App() {
 
   const quantize = async () => {
     console.log("QUANTIZE !!");
-    const colorCount = document.getElementById("colors").value;
     const quantizationLevel = document.getElementById("q").value;
     try {
       const formData = new FormData();
@@ -217,15 +216,26 @@ function App() {
           <label for="q">Minimum color difference (0-100): </label>
           <input className="border" type="number" id="distance" name="distance" min="0" max="100" />
         </div>
-        <div>
-          <label for="q">Color quantization (1-256): </label>
-          <input className="border" type="number" id="q" name="q" min="1" max="256" />
+        <div className="flex flex-col items-center">
+          <button className="button" type="button" onClick={() => {
+            const advancedSettings = document.querySelector('.advanced-settings');
+            advancedSettings.classList.toggle('hidden');
+            advancedSettings.classList.toggle('flex');
+          }}>
+            Advanced Settings
+          </button>
+          <div className="advanced-settings flex flex-col items-center gap-4">
+            <div>
+              <label for="q">Color quantization (1-256): </label>
+              <input className="border" type="number" id="q" name="q" min="1" max="256" />
+            </div>
+            <p className="subtext ml-2 mr-2">A lower color quantization level should increase the variety of colors shown, but may be slightly less accurate.<br></br>If you don't understand what this means, it may be better to leave this option untouched. (Would not recommend going below 64 in most cases.)</p>
+            <p className="subtext ml-2 mr-2">TIP: If your image is large or has a wide variety of colors, consider cropping a specific, important part of it for better results.</p>
+            <button className="button mb-2" type="button" onClick={quantize}>
+              Quantize
+            </button>
+          </div>
         </div>
-        <p className="subtext">A lower color quantization level should increase the variety of colors shown, but may be slightly less accurate.<br></br>If you don't understand what this means, it may be better to leave this option untouched. (Would not recommend going below 64 in most cases.)</p>
-        <p className="subtext">TIP: If your image is large or has a wide variety of colors, consider cropping a specific, important part of it for better results.</p>
-        <button className="button" type="button" onClick={quantize}>
-          Quantize
-        </button>
         <button className="button mb-[15px]" type="button" onClick={colorScheme}>
           Get my color scheme!
         </button>
