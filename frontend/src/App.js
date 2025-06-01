@@ -176,6 +176,35 @@ function App() {
     }
   }
 
+  const toggleAdvancedSettings = () => {
+    const advancedSettings = document.querySelector('.advanced-settings');
+    if (advancedSettings.classList.contains('expanded')) { // COLLAPSE SETTINGS:
+      advancedSettings.style.height = `${advancedSettings.scrollHeight}px`;
+      requestAnimationFrame(() => {
+        advancedSettings.style.height = '0';
+      });
+      advancedSettings.addEventListener(
+        'transitionend',
+        () => {
+          advancedSettings.classList.remove('expanded');
+          advancedSettings.style.border = 'none';
+        },
+        { once: true }
+      );
+    } else { // EXPAND SETTINGS:
+      advancedSettings.style.height = `${advancedSettings.scrollHeight}px`;
+      advancedSettings.style.border = '2px solid black'; 
+      advancedSettings.classList.add('expanded');
+      advancedSettings.addEventListener(
+        'transitionend',
+        () => {
+          advancedSettings.style.height = 'auto'; 
+        },
+        { once: true }
+      );
+    }
+  };
+
   return (<>
     <div className="">
       <header className="header">
@@ -217,11 +246,7 @@ function App() {
           <input className="border" type="number" id="distance" name="distance" min="0" max="100" />
         </div>
         <div className="flex flex-col items-center">
-          <button className="button" type="button" onClick={() => {
-            const advancedSettings = document.querySelector('.advanced-settings');
-            advancedSettings.classList.toggle('hidden');
-            advancedSettings.classList.toggle('flex');
-          }}>
+          <button className="button" type="button" onClick={toggleAdvancedSettings}>
             Advanced Settings
           </button>
           <div className="advanced-settings flex flex-col items-center gap-4">
