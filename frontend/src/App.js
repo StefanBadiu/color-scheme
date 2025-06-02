@@ -229,7 +229,7 @@ function App() {
   const expandImage = () => {
     if (image) {
       var modal = document.getElementById("imageModal");
-      modal.style.display = "block";
+      modal.style.display = "flex"; // Set display to flex for centering
     }
   }
 
@@ -248,9 +248,9 @@ function App() {
     </div>
 
     <div id="imageModal" class="modal">
-      <div class="flex flex-col items-center modal-content">
-        <span className="close-modal flex flex-col" onClick={collapseImage}>&times;</span>
-        <img src={image} alt="Uploaded image, expanded" className="modal-content" />
+      <div class="modal-content">
+        <span className="close-modal" onClick={collapseImage}>&times;</span>
+        <img src={image} alt="Uploaded image, expanded" className="modal-img" />
       </div>
     </div> 
     
