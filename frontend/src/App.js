@@ -248,9 +248,9 @@ function App() {
     </div>
 
     <div id="imageModal" class="modal">
-      <div class="modal-content flex flex-col items-center">
-        <span class="close" className="flex flex-col close-modal" onClick={collapseImage}>&times;</span>
-        <img src={image} alt="Uploaded image, expanded" className="" />
+      <div class="flex flex-col items-center modal-content">
+        <span className="close-modal flex flex-col" onClick={collapseImage}>&times;</span>
+        <img src={image} alt="Uploaded image, expanded" className="modal-content" />
       </div>
     </div> 
     
