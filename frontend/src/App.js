@@ -226,6 +226,18 @@ function App() {
     }
   };
 
+  const expandImage = () => {
+    if (image) {
+      var modal = document.getElementById("imageModal");
+      modal.style.display = "block";
+    }
+  }
+
+  const collapseImage = () => {
+    var modal = document.getElementById("imageModal");
+    modal.style.display = "none";
+  }
+
   return (<>
     <div className="">
       <header className="header">
@@ -234,6 +246,13 @@ function App() {
         </p>
       </header>
     </div>
+
+    <div id="imageModal" class="modal">
+      <div class="modal-content flex flex-col items-center">
+        <span class="close" className="flex flex-col close-modal" onClick={collapseImage}>&times;</span>
+        <img src={image} alt="Uploaded image, expanded" className="" />
+      </div>
+    </div> 
     
     <div className="main flex flex-col gap-4">
       <div className="input-container flex flex-col items-center gap-4">
@@ -247,7 +266,12 @@ function App() {
           />
           {image &&
             <div className="flex flex-col">
-              <img src={image} alt="Uploaded" className="img-preview uploaded-image" />
+              <img 
+                src={image} 
+                alt="Uploaded" 
+                onClick={expandImage}
+                className="img-preview uploaded-image" 
+              />
               <p className="subtext">{imageFileName}</p>
             </div>
           }
