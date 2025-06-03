@@ -5,10 +5,12 @@
 :root {
   --main-color: #61dafb;
   --bg-text-color: #000000;
+  --main-color-dark: color-mix(in srgb, var(--main-color) 70%, black 30%);
+  --main-color-light: color-mix(in srgb, var(--main-color) 70%, white 30%);
 }
 
 .header {
-  background-color: var(--main-color);
+  background-image: linear-gradient(var(--main-color-light), var(--main-color-dark));
   transition: background-color 0.2s ease;
 
   min-height: 10vh;
@@ -25,9 +27,10 @@
   text-indent: 1em;
 
   /* Border */
-  border-width: 0px 0px 2px 0px;
-  border-color: #000;
-  border-radius: 0px 0px 10px 0px;
+  border-radius: 0px 0px 30px 0px;
+  border-width: 1px;
+  border-color: #555;
+  box-shadow: #000000 0px 0px 10px 0px;
 }
 
 .main {
@@ -49,12 +52,12 @@
 }
 
 .button {
-  background-color: var(--main-color);
+  background-image: linear-gradient(var(--main-color-light), var(--main-color-dark));
   font-size: calc(2px + 2vmin);
 
   border-radius: 10px;
-  border-width: 2px;
-  border-color: #000;
+  border-width: 1px;
+  border-color: #555;
 
   padding: 0px 5px;
 
@@ -76,8 +79,8 @@
 }
 
 .border {
-  border-width: 2px;
-  border-color: #000;
+  border-width: 1px;
+  border-color: #555;
   border-radius: 10px;
   padding: 0px 6px;
 }
@@ -91,7 +94,7 @@
 }
 
 .advanced-settings {
-  background-color: #AAAAAA;
+  background-color: #BBB;
   border-radius: 10px;
 
   overflow: hidden;
@@ -100,7 +103,8 @@
 }
 
 .advanced-settings.expanded {
-  border: 2px solid black;
+  border-width: 1px;
+  border-color: #555;
   height: auto;
   transition: height 0.3s ease;
 }

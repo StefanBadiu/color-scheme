@@ -207,14 +207,14 @@ function App() {
         'transitionend',
         () => {
           advancedSettings.classList.remove('expanded');
-          advancedSettings.style.border = 'none';
+          advancedSettings.style['border-width'] = `0px`; 
         },
         { once: true }
       );
     } else { // EXPAND SETTINGS:
       setAdvancedSettingsText("Advanced Settings ↑");
       advancedSettings.style.height = `${advancedSettings.scrollHeight}px`;
-      advancedSettings.style.border = '2px solid black'; 
+      advancedSettings.style['border-width'] = `1px`; 
       advancedSettings.classList.add('expanded');
       advancedSettings.addEventListener(
         'transitionend',
