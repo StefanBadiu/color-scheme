@@ -32,3 +32,4 @@ frontend/build/logo512.png
 frontend/build/manifest.json
 frontend/build/robots.txt
 frontend/build/favicon.ico
+backend/venv/foo.jpg

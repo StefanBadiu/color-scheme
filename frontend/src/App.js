@@ -304,6 +304,12 @@ function App() {
             <button className="button mb-2" type="button" onClick={quantize}>
               Quantize
             </button>
+            {quantizeSample && (
+              <div>
+                <p>Quantized Image:</p>
+                <img src={quantizeSample} alt="Quantized" className="img-preview mb-2" />
+              </div>
+            )}
           </div>
         </div>
         <button className="button mb-[15px]" type="button" onClick={colorScheme}>
@@ -338,14 +344,6 @@ function App() {
           </div>
         ) : (
           <p>No colors extracted yet.</p>
-        )}
-      </div>
-      <div className="flex flex-col items-center gap-4">
-        {quantizeSample && (
-          <div>
-            <p>Quantized Image:</p>
-            <img src={quantizeSample} alt="Quantized" className="img-preview" />
-          </div>
         )}
       </div>
     </div>
