@@ -154,6 +154,24 @@
   color: red; 
 }
 
+.color-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between color items */
+  justify-content: center;
+}
+
+.color-item {
+  width: calc(20vw - 10px); /* Up to 5 items per row */
+  height: calc(150px - 2vw); /* Adjust height as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

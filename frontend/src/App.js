@@ -345,27 +345,30 @@ function App() {
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div className="flex flex-col items-center">
             <h1>Extracted Colors:</h1>
-            <ul>
+            <div className="color-display">
               {colors.message.map(([rgb, count], index) => (
-                <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
-                  <div className="flex items-center gap-2">
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: "20px",
-                        height: "20px",
-                        backgroundColor: `rgb${rgb}`,
-                        border: "1px solid #000",
-                      }}
-                    ></span>
-                    rgb{rgb} / {rgbToHex(rgb)}
-                  </div>
+                <div className="color-item" key={index}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: `rgb${rgb}`,
+                      border: "1px solid #000",
+                    }}
+                  ></span>
                   <p className="subtext">
+                    rgb{rgb}
+                  </p>
+                  <p className="subtext">
+                    {rgbToHex(rgb)} 
+                  </p>
+                  <p className="subtext text-xs">
                     ({count} occurrences)
                   </p>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         ) : (
           <p>No colors extracted yet.</p>
