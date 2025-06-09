@@ -259,7 +259,7 @@ function App() {
     <div className="">
       <header className="header">
         <p className="">
-          Stefan Color Picker
+          Stefan Color Picker (returned colors CSS experimentation)
         </p>
       </header>
     </div>
