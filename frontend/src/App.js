@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useState, useEffect, useRef } from 'react';
+import loadingGif from './Images/loading.gif';
 
 function hexToRGB(h) {
   let r = 0, g = 0, b = 0;
@@ -41,6 +42,7 @@ function App() {
   const [mainColor, setMainColor] = useState(hexToRGB("#61dafb"));
   const [quantizeSample, setQuantizeSample] = useState(null);
   const [advancedSettingsText, setAdvancedSettingsText] = useState("Advanced Settings ↓");
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   /*useEffect(() => {
@@ -162,6 +164,7 @@ function App() {
     }
 
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
       formData.append("colorCount", colorCount);
@@ -190,8 +193,10 @@ function App() {
       }
       console.log(mainColor);
       setMainColor(`rgb${mainColor}`);
+      setLoading(false);
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   }
 
@@ -238,6 +243,15 @@ function App() {
     modal.style.display = "none";
   }
 
+  useEffect(() => {
+    var modal = document.getElementById("loadingModal");
+    if (loading) {
+      modal.style.display = "flex";
+    } else {
+      modal.style.display = "none";
+    }
+  }, [loading]);
+
   return (<>
     <div className="">
       <header className="header">
@@ -251,6 +265,14 @@ function App() {
       <div class="modal-content">
         <span className="close-modal" onClick={collapseImage}>&times;</span>
         <img src={image} alt="Uploaded image, expanded" className="modal-img" />
+      </div>
+    </div> 
+
+    <div id="loadingModal" class="modal">
+      <div class="modal-content">
+        <img src={loadingGif} alt="Loading symbol" className="modal-img" />
+        <p className='subtext'>Loading...<br></br></p>
+        <p className='subtext'>Larger images may take a while.</p>
       </div>
     </div> 
     
@@ -319,7 +341,7 @@ function App() {
       <div>
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div className="flex flex-col items-center">
-            <p>Extracted Colors:</p>
+            <h1>Extracted Colors:</h1>
             <ul>
               {colors.message.map(([rgb, count], index) => (
                 <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
