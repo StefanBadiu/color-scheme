@@ -123,6 +123,7 @@ function App() {
       return;
     }
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
       formData.append("q", quantizationLevel);
@@ -142,8 +143,10 @@ function App() {
       const blob = await response.blob();
       const imageUrl = URL.createObjectURL(blob);
       setQuantizeSample(imageUrl);
+      setLoading(false);
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   }
 
