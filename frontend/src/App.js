@@ -341,15 +341,17 @@ function App() {
           Get my color scheme!
         </button>
       </div>
-      <div>
+      <div className='mb-4'>
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div className="flex flex-col items-center">
             <h1>Extracted Colors:</h1>
-            <div className='mb-8 flex flex-col items-center'>
-              <label class="toggle" for="my-toggle">
-                <input id="my-toggle" class="toggle__input" type="checkbox" />
-                <div class="toggle__slider"></div>
+            <div className="flex items-center gap-2 mt-4 mb-4">
+              <p className='subtext'>Card View</p>
+              <label className="toggle" for="my-toggle">
+                <input id="my-toggle" className="toggle__input" type="checkbox" />
+                <div className="toggle__slider"></div>
               </label>
+              <p className='subtext'>Thin View</p>
             </div>
             <div className="color-display">
               {colors.message.map(([rgb, count], index) => (
