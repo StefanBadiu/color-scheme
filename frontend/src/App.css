@@ -10,7 +10,7 @@
 }
 
 .header {
-  background-image: linear-gradient(var(--main-color-light), var(--main-color-dark));
+  background-image: linear-gradient(var(--main-color-light), var(--main-color), var(--main-color-dark));
   transition: background-color 0.2s ease;
 
   min-height: 10vh;
@@ -47,6 +47,13 @@
 .subtext {
   font-size: 0.8rem;
   color: #555555;
+  text-wrap: wrap;
+  text-align: center;
+}
+
+.subsubtext {
+  font-size: 0.6rem;
+  color: #777777;
   text-wrap: wrap;
   text-align: center;
 }

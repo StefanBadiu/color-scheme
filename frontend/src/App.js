@@ -363,7 +363,7 @@ function App() {
                   <p className="subtext">
                     {rgbToHex(rgb)} 
                   </p>
-                  <p className="subtext text-xs">
+                  <p className="subsubtext text-xs">
                     ({count} occurrences)
                   </p>
                 </div>
