@@ -345,6 +345,12 @@ function App() {
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div className="flex flex-col items-center">
             <h1>Extracted Colors:</h1>
+            <div className='mb-8 flex flex-col items-center'>
+              <label class="toggle" for="my-toggle">
+                <input id="my-toggle" class="toggle__input" type="checkbox" />
+                <div class="toggle__slider"></div>
+              </label>
+            </div>
             <div className="color-display">
               {colors.message.map(([rgb, count], index) => (
                 <div className="color-item" key={index}>
@@ -363,7 +369,7 @@ function App() {
                   <p className="subtext">
                     {rgbToHex(rgb)} 
                   </p>
-                  <p className="subsubtext text-xs">
+                  <p className="subsubtext">
                     ({count} occurrences)
                   </p>
                 </div>
