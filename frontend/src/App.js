@@ -361,7 +361,10 @@ function App() {
             <div className="color-display">
               {colorView === "card" ? ( // Card view
                 colors.message.map(([rgb, count], index) => (
-                  <div className="color-item" key={index}>
+                  <div
+                    className="color-item fade-in-bottom" 
+                    key={index}
+                    style={{ animationDelay: `${index * 0.1}s` }}>
                     <span
                       style={{
                         display: "inline-block",
@@ -383,10 +386,14 @@ function App() {
                   </div>
                 ))
               ) : ( // Thin view
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center fade-in-bottom">
                   <ul>
                     {colors.message.map(([rgb, count], index) => (
-                      <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
+                      <li
+                        className="flex flex-row justify-between items-center gap-4 w-full fade-in-bottom"
+                        key={index}
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                      >
                         <div className="flex items-center gap-2">
                           <span
                             style={{

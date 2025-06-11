@@ -225,11 +225,16 @@
   left: calc(100% - 1.4em); 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+.fade-in-bottom {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInBottom 0.5s ease forwards;
+  animation-delay: var(--animation-delay, 0s);
+}
+
+@keyframes fadeInBottom {
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateX(0) translateY(0);
   }
 }
