@@ -58,6 +58,13 @@
   text-align: center;
 }
 
+.error {
+  font-size: 1.2rem;
+  color: #cc0000;
+  text-wrap: wrap;
+  text-align: center;
+}
+
 .button {
   background-image: linear-gradient(var(--main-color-light), var(--main-color-dark));
   font-size: calc(2px + 2vmin);

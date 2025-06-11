@@ -262,7 +262,7 @@ function App() {
     <div className="">
       <header className="header">
         <p className="">
-          Stefan Color Picker (returned colors CSS experimentation)
+          Stefan Color Picker
         </p>
       </header>
     </div>
@@ -307,7 +307,7 @@ function App() {
             Upload image
           </button>
         </div>
-        <div className="subtext mb-2">
+        <div className="error mb-2">
           {error}
         </div>
         <div>
