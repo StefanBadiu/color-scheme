@@ -44,6 +44,7 @@ function App() {
   const [advancedSettingsText, setAdvancedSettingsText] = useState("Advanced Settings ↓");
   const [loading, setLoading] = useState(false);
   const [colorView, setColorView] = useState("card"); // "card" or "thin"
+  const [animationKey, setAnimationKey] = useState(0); // For animation reset
   const fileInputRef = useRef(null);
 
   /*useEffect(() => {
@@ -197,6 +198,7 @@ function App() {
       }
       console.log(mainColor);
       setMainColor(`rgb${mainColor}`);
+      setAnimationKey((prevKey) => prevKey + 1); // Animation reset
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -358,7 +360,7 @@ function App() {
               </label>
               <p className='subtext'>Thin View</p>
             </div>
-            <div className="color-display">
+            <div className="color-display" key={animationKey}>
               {colorView === "card" ? ( // Card view
                 colors.message.map(([rgb, count], index) => (
                   <div
