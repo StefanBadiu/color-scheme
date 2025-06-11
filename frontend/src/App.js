@@ -115,13 +115,13 @@ function App() {
     const quantizationLevel = document.getElementById("q").value;
     const distance = document.getElementById("distance").value;
     if (!image) {
-      setError("Please upload an image.");
+      setError("Error: Please upload an image.");
       return;
     } else if (!colorCount || !distance) {
-      setError("Please fill in all fields.");
+      setError("Error: Please fill in all fields.");
       return;
     } else if (!quantizationLevel) {
-      setError("Please fill in all fields under \"Advanced Settings\".");
+      setError("Error: Please fill in all fields under \"Advanced Settings\".");
       return;
     }
     try {
@@ -137,7 +137,7 @@ function App() {
 
       if (!response.ok) {
         console.log("OOPS!");
-        throw new Error("Failed to fetch quantized image.");
+        throw new Error("Error: Failed to fetch quantized image. Please try again or reupload your image.");
       }
 
       console.log(response || "NO RESPONSE");
@@ -158,13 +158,13 @@ function App() {
     const quantizationLevel = document.getElementById("q").value;
     const distance = document.getElementById("distance").value;
     if (!image) {
-      setError("Please upload an image.");
+      setError("Error: Please upload an image.");
       return;
     } else if (!colorCount || !distance) {
-      setError("Please fill in all fields.");
+      setError("Error: Please fill in all fields.");
       return;
     } else if (!quantizationLevel) {
-      setError("Please fill in all fields under \"Advanced Settings\".");
+      setError("Error: Please fill in all fields under \"Advanced Settings\".");
       return;
     }
 
@@ -185,7 +185,7 @@ function App() {
 
       if (!response.ok) {
         console.log("LOL");
-        throw new Error("Failed to fetch color scheme.");
+        throw new Error("Error: Failed to fetch color scheme.");
       }
 
       const data = await response.json();
