@@ -43,6 +43,7 @@ function App() {
   const [quantizeSample, setQuantizeSample] = useState(null);
   const [advancedSettingsText, setAdvancedSettingsText] = useState("Advanced Settings ↓");
   const [loading, setLoading] = useState(false);
+  const [colorView, setColorView] = useState("card"); // "card" or "thin"
   const fileInputRef = useRef(null);
 
   /*useEffect(() => {
@@ -237,7 +238,7 @@ function App() {
   const expandImage = () => {
     if (image) {
       var modal = document.getElementById("imageModal");
-      modal.style.display = "flex"; // Set display to flex for centering
+      modal.style.display = "flex";
     }
   }
 
@@ -259,7 +260,7 @@ function App() {
     <div className="">
       <header className="header">
         <p className="">
-          Stefan Color Picker
+          Stefan Color Picker (returned colors CSS experimentation)
         </p>
       </header>
     </div>
@@ -341,31 +342,70 @@ function App() {
           Get my color scheme!
         </button>
       </div>
-      <div>
+      <div className='mb-4'>
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div className="flex flex-col items-center">
             <h1>Extracted Colors:</h1>
-            <ul>
-              {colors.message.map(([rgb, count], index) => (
-                <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
-                  <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-4">
+              <p className='subtext'>Card View</p>
+              <label className="toggle" for="my-toggle">
+                <input id="my-toggle" className="toggle__input" type="checkbox" onClick={
+                  () => {
+                    setColorView(colorView === "card" ? "thin" : "card");
+                  }
+                }/>
+                <div className="toggle__slider"></div>
+              </label>
+              <p className='subtext'>Thin View</p>
+            </div>
+            <div className="color-display">
+              {colorView === "card" ? ( // Card view
+                colors.message.map(([rgb, count], index) => (
+                  <div className="color-item" key={index}>
                     <span
                       style={{
                         display: "inline-block",
-                        width: "20px",
-                        height: "20px",
+                        width: "100%",
+                        height: "100%",
                         backgroundColor: `rgb${rgb}`,
                         border: "1px solid #000",
                       }}
                     ></span>
-                    rgb{rgb} / {rgbToHex(rgb)}
+                    <p className="subtext">
+                      rgb{rgb}
+                    </p>
+                    <p className="subtext">
+                      {rgbToHex(rgb)} 
+                    </p>
+                    <p className="subsubtext">
+                      ({count} occurrences)
+                    </p>
                   </div>
-                  <p className="subtext">
-                    ({count} occurrences)
-                  </p>
-                </li>
-              ))}
-            </ul>
+                ))
+              ) : ( // Thin view
+                <div className="flex flex-col items-center">
+                  <ul>
+                    {colors.message.map(([rgb, count], index) => (
+                      <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
+                        <div className="flex items-center gap-2">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "20px",
+                              height: "20px",
+                              backgroundColor: `rgb${rgb}`,
+                              border: "1px solid #000",
+                            }}
+                          ></span>
+                          rgb{rgb} / {rgbToHex(rgb)}
+                        </div>
+                        <p className="subtext">({count} occurrences)</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <p>No colors extracted yet.</p>

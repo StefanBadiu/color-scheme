@@ -10,7 +10,7 @@
 }
 
 .header {
-  background-image: linear-gradient(var(--main-color-light), var(--main-color-dark));
+  background-image: linear-gradient(var(--main-color-light), var(--main-color), var(--main-color-dark));
   transition: background-color 0.2s ease;
 
   min-height: 10vh;
@@ -47,6 +47,13 @@
 .subtext {
   font-size: 0.8rem;
   color: #555555;
+  text-wrap: wrap;
+  text-align: center;
+}
+
+.subsubtext {
+  font-size: 0.6rem;
+  color: #777777;
   text-wrap: wrap;
   text-align: center;
 }
@@ -152,6 +159,70 @@
   font-size: 1.5rem; 
   cursor: pointer; 
   color: red; 
+}
+
+.color-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between color items */
+  justify-content: center;
+}
+
+.color-item {
+  width: calc(20vw - 15px); 
+  height: calc(150px - 2vw); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.toggle {
+  display: inline-flex; /* Use flexbox for centering */
+  align-items: center; /* Vertically center the slider */
+  justify-content: center; /* Horizontally center the slider */
+  cursor: pointer;
+}
+
+.toggle__input {
+  display: none;
+  
+  &:checked + .toggle__slider {
+    background-color: var(--main-color-dark);
+    &:before {
+      left: 2.6em;
+    }
+  }
+}
+
+.toggle__slider {
+  width: 3em;
+  height: 1.5em;
+  background: #ccc;
+  border-radius: 2em;
+  position: relative; 
+  display: flex; 
+  align-items: center;
+  transition: background-color 300ms cubic-bezier(0.89, 0.3, 0.15, 0.73);
+}
+
+.toggle__slider:before {
+  content: '';
+  width: 1.2em; 
+  height: 1.2em; 
+  background-color: #fff;
+  position: absolute;
+  top: 50%; 
+  left: 0.2em; 
+  transform: translateY(-50%);
+  border-radius: 50%;
+  transition: 300ms cubic-bezier(0.89, 0.3, 0.15, 0.73);
+}
+
+.toggle__input:checked + .toggle__slider:before {
+  left: calc(100% - 1.4em); 
 }
 
 @keyframes App-logo-spin {
