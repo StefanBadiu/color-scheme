@@ -346,7 +346,7 @@ function App() {
         {colors && colors.message.length > 0 ? ( // Check if colors exist
           <div className="flex flex-col items-center">
             <h1>Extracted Colors:</h1>
-            <div className="flex items-center gap-2 mt-4 mb-4">
+            <div className="flex items-center gap-2 mb-4">
               <p className='subtext'>Card View</p>
               <label className="toggle" for="my-toggle">
                 <input id="my-toggle" className="toggle__input" type="checkbox" onClick={
@@ -384,7 +384,6 @@ function App() {
                 ))
               ) : ( // Thin view
                 <div className="flex flex-col items-center">
-                  <h1>Extracted Colors:</h1>
                   <ul>
                     {colors.message.map(([rgb, count], index) => (
                       <li className="flex flex-row justify-between items-center gap-4 w-full" key={index}>
